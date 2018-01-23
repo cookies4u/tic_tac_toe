@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tic Tac Toe</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light|Walter+Turncoat" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+</head>
+
+<body>
+
+<div id='currentPlayerContainer'>
+	<div class='containerPlayers' id='currentPlayer1'>Go Player 1!</div>
+	<div class='containerPlayers' id='currentPlayer2'>Go Player 2!</div>
+</div>
+
+<div id='gameContainer'>
+	<div id='communicationContainer'>
+		<div id='communicationCenter'>
+			<div id="Player1" class='communicationItem'>
+				<div id='score1' class='score' value='0'>0</div>
+				<div class='playerType'>player 1</div>
+			</div>
+			<div id="lineGrey" class='communicationItem'>
+				
+			</div>
+			<div id='Player2' class='communicationItem'>
+				<div id='score2' class='score' value='0'>0</div>
+				<div class='playerType'>player 2</div>
+			</div>
+			<div id='resetButton' class='clickableButton communicationItem' value='reset'>Reset All</div>
+		</div>
+	</div>
+
+	<div id='numberOfPlayerSelect'>
+		<div class='numberOfPlayerHeader'>How do you want to play?</div>
+		<div class='clickableButton playerSelect' value='select1Player'> <div class='selectBorder'>One Player</div> </div>
+		<div class='clickableButton playerSelect' value='select2Player'> <div class='selectBorder'>Two Player</div> </div>
+	</div>
+
+	<div id='signSelect'>
+		<div class='numberOfPlayerHeader'>Would you like to be X or 0?</div>
+		<div class='clickableButton playerSelect xoSelect' value='x'> <div class='selectBorder' id='xSelect'>X</div> </div>
+		<div class='clickableButton playerSelect xoSelect' value='o'> <div class='selectBorder' id='oSelect'>O</div> </div>
+		<div class='clickableButton playerSelect xoSelect' value='back' id='backButton'> 
+			<div id='backHover'>
+				<i class='fa fa-arrow-left' id='backArrow' style="font-size: 20px">  </i>
+				<div id='backText'>Back</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<div id='gameBoard'>
+		<table>
+			<tr>
+				<td class='clickableButton numberdiv' id='value0' value=0>x</td>
+				<td class='clickableButton numberdiv' id='value1' value=1>x</td>
+				<td class='clickableButton numberdiv' id='value2' value=2>x</td>
+			</tr>
+			<tr>
+				<td class='clickableButton numberdiv' id='value3' value=3>x</td>
+				<td class='clickableButton numberdiv' id='value4' value=4>x</td>
+				<td class='clickableButton numberdiv' id='value5' value=5>x</td>
+			</tr>
+			<tr>
+				<td class='clickableButton numberdiv' id='value6' value=6>x</td>
+				<td class='clickableButton numberdiv' id='value7' value=7>x</td>
+				<td class='clickableButton numberdiv' id='value8' value=8>x</td>
+			</tr>
+		</table>
+	</div>
+
+	<div id='winScreen'>
+		<div>Player 2 Wins!! :D</div>
+	</div>
+</div>
+
+	<script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>

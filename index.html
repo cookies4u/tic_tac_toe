@@ -25,14 +25,14 @@
 	<div id='communicationContainer'>
 		<div id='communicationCenter'>
 			<div id="Player1" class='communicationItem'>
-				<div class='score' value='0'>0</div>
+				<div id='score1' class='score' value='0'>0</div>
 				<div class='playerType'>player 1</div>
 			</div>
 			<div id="lineGrey" class='communicationItem'>
 				
 			</div>
 			<div id='Player2' class='communicationItem'>
-				<div class='score' value='0'>0</div>
+				<div id='score2' class='score' value='0'>0</div>
 				<div class='playerType'>player 2</div>
 			</div>
 			<div id='resetButton' class='clickableButton communicationItem' value='reset'>Reset All</div>
@@ -61,21 +61,25 @@
 	<div id='gameBoard'>
 		<table>
 			<tr>
-				<td class='clickableButton numberdiv' value=0>x</td>
-				<td class='clickableButton numberdiv' value=1>x</td>
-				<td class='clickableButton numberdiv' value=2>x</td>
+				<td class='clickableButton numberdiv' id='value0' value=0>x</td>
+				<td class='clickableButton numberdiv' id='value1' value=1>x</td>
+				<td class='clickableButton numberdiv' id='value2' value=2>x</td>
 			</tr>
 			<tr>
-				<td class='clickableButton numberdiv' value=3>x</td>
-				<td class='clickableButton numberdiv' value=4>x</td>
-				<td class='clickableButton numberdiv' value=5>x</td>
+				<td class='clickableButton numberdiv' id='value3' value=3>x</td>
+				<td class='clickableButton numberdiv' id='value4' value=4>x</td>
+				<td class='clickableButton numberdiv' id='value5' value=5>x</td>
 			</tr>
 			<tr>
-				<td class='clickableButton numberdiv' value=6>x</td>
-				<td class='clickableButton numberdiv' value=7>x</td>
-				<td class='clickableButton numberdiv' value=8>x</td>
+				<td class='clickableButton numberdiv' id='value6' value=6>x</td>
+				<td class='clickableButton numberdiv' id='value7' value=7>x</td>
+				<td class='clickableButton numberdiv' id='value8' value=8>x</td>
 			</tr>
 		</table>
+	</div>
+
+	<div id='winScreen'>
+		<div>Player 2 Wins!! :D</div>
 	</div>
 </div>
 

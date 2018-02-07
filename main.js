@@ -10,6 +10,7 @@ var myApp = {
     this.count = 0; // if count = 3 it means the palyer won
     this.playerAchoice = []; // compare to winning options
     this.playerBchoice = []; // compare to winning options
+    this.winningChoice = [];
     this.playerA = ['player1', 'x'];
     this.playerB = ['player2', 'o'];
     this.currentPlayer = 'player1';
@@ -52,9 +53,6 @@ var myApp = {
 
         myApp.game.gamelogic(myApp.value);
 
-
-        // myApp.game.updateBoard(myApp.value);
-        // myApp.game.checkForWin();
     });
   }
 
@@ -66,19 +64,26 @@ var myApp = {
       Game Logic
 =========================*/
 myApp.game = {
-  whosTurnInitialTurn: function() {
+  whosTurnInitialTurn: function() { // ran once enter final navigation window maybe should also run after game round
     // console.log('random ', Math.random() < 0.5); // initial player selection
     if ('random ', Math.random() < 0.5) {
       // document.getElementById("currentPlayer1").style.display = 'block'; // needs to be defined by a function
       $("#currentPlayer1").css("display", 'block');
 
       myApp.currentPlayer = 'player1'
+      console.log(myApp.currentPlayer);
     }
     else {
       // document.getElementById("currentPlayer2").style.display = 'block'; // needs to be defined by a function
       $("#currentPlayer2").css("display", 'block');
 
-      myApp.currentPlayer = 'player2'
+      myApp.currentPlayer = 'player2';
+      console.log(myApp.currentPlayer);
+
+      if (myApp.playerB[0] === 'comp') {
+        console.log('im in the computer logic xxxxxxxx')
+        myApp.game.computerLogic(); 
+      }
     }
       // on click will tigger remaining turn changes
   },
@@ -103,9 +108,9 @@ myApp.game = {
     }
   },
   gamelogic: function(value) { // when button is clicked
-    console.log('xxxxxxxx this is the value ', value);
+    // console.log('xxxxxxxx this is the value ', value);
     value = parseInt(value);
-    console.log(Number.isInteger(value));
+    // console.log(Number.isInteger(value));
     if (Number.isInteger(value) ) {
       if (myApp.currentPlayer === 'player1') {
         // 1. when cell clicked choice saved and value in DOM set to NA
@@ -113,26 +118,115 @@ myApp.game = {
         // document.getElementById("value" + value).value ='NA';
         $('#value' + value).attr('value', 'NA');
         $("#value" + value).text(myApp.playerA[1]); // pass in x or o
+        myApp.gameBoard[value] = myApp.playerA[1];
+        console.log('myApp.gameBoard[value] ', myApp.gameBoard[value]);
 
         // check for win
-        myApp.game.checkForWin(myApp.playerAchoice);
+        var winVar = myApp.game.checkForWin(myApp.playerAchoice);
+        var drawVar;
 
-        // change players and 
-        myApp.game.whosTurnOnclick();
+        // check for draw
+        if (winVar !== true) {
+          drawVar = myApp.game.checkForDraw(); // do not enter this code if already won  
+        }
+
+        
+        // if win or draw already happend want to stop before get to this code 
+        // comp will go and switch playes again. comp will be triggered when the symbol is selected 
+        // *************************** //
+        if ( winVar == true || drawVar == true) { // false || true 
+          
+        }
+        else {
+          // change players dont check for player if already won are got a draw
+          myApp.game.whosTurnOnclick();
+
+          if (myApp.playerB[0] === 'comp') {
+            console.log('im in the computer logic')
+            myApp.game.computerLogic();  
+          }
+        }
+        
+        
       }
-      else {
+      else if (myApp.currentPlayer === 'player2' && myApp.playerB[0] !== 'comp') { // player2 human turn
+        console.log('player2 in the house')
         myApp.playerBchoice.push(value);
         // document.getElementById("value" + value).value ='NA';
         $('#value' + value).attr('value', 'NA');
         $("#value" + value).text(myApp.playerB[1]); // pass in x or o
+        myApp.gameBoard[value] = myApp.playerB[1];
+        console.log('myApp.gameBoard[value] ', myApp.gameBoard[value]);
 
         // check for win
-        myApp.game.checkForWin(myApp.playerBchoice);
+        var winVar = myApp.game.checkForWin(myApp.playerBchoice);
+        var drawVar;
 
-        // change players and 
-        myApp.game.whosTurnOnclick();
+        // check for draw
+        if (winVar !== true) {
+          drawVar = myApp.game.checkForDraw(); // do not enter this code if already won  
+        }
+        
+        // if win or draw already happend want to stop before get to this code 
+        // comp will go and switch playes again. comp will be triggered when the symbol is selected 
+        // *************************** //
+        if ( winVar == true || drawVar == true) { // false || true 
+          
+        }
+        else {
+          // change players dont check for player if already won are got a draw
+          myApp.game.whosTurnOnclick();
+        }
+
+
+      }
+
+    }
+  },
+  computerLogic: function() {
+
+    myApp.game.computerSelection();
+
+    // change players and 
+    myApp.game.whosTurnOnclick();
+
+  },
+  computerSelection: function() {
+    // check winning combo
+    // then making sure it's not an NA on the game board
+    console.log('im in computer selection');
+    var winComboMatch;
+    for (var i = 0; i < myApp.winCombos.length; i++) {
+      for (var k = 0; k < myApp.winCombos[i].length; k++) {
+        winComboMatch = myApp.winCombos[i][k];
+        // console.log('winComboMatch ', winComboMatch);
+        // console.log('playerA[1] ', myApp.playerA[1]);
+        // console.log('playerB[1] ', myApp.playerB[1]);
+        // console.log('myApp.gameBoard[winComboMatch] ', myApp.gameBoard[winComboMatch]);
+        if (myApp.gameBoard[winComboMatch] === '') {
+          myApp.playerBchoice.push(winComboMatch);
+          // document.getElementById("value" + value).value ='NA';
+          $('#value' + winComboMatch).attr('value', 'NA');
+          $("#value" + winComboMatch).text(myApp.playerB[1]); // pass in x or o
+          myApp.gameBoard[winComboMatch] = myApp.playerB[1];
+
+          // console.log('myApp.gameBoard[winComboMatch] ', myApp.gameBoard[winComboMatch]);
+          // console.log('myApp.gameBoard ', myApp.gameBoard);
+
+
+          // check for win
+          
+          myApp.game.checkForWin(myApp.playerBchoice);
+
+          // check for draw
+          myApp.game.checkForDraw();
+
+          return;
+
+        }
       }
     }
+
   },
 
   checkForWin: function(player) { // passing in player choice which is an array
@@ -140,20 +234,19 @@ myApp.game = {
     // check each option if have 3 in a row
     var wincount = 0;
     for (var j = 0; j < myApp.winCombos.length; j++) {
-      console.log('myApp.winCombos.length ', myApp.winCombos.length);
       for (var k = 0; k < myApp.winCombos[j].length; k++) {
         // var winComboInt = parseInt(myApp.winCombos[j][k]);
         for (var i = 0; i < player.length; i++) {
           // console.log('i: ', i, ' player[i] ', player[i]);
           // console.log('j: ', j, 'k: ', k, ' myApp.winCombos[j][k] ', myApp.winCombos[j][k]);
           // console.log(player[i], ' === ', myApp.winCombos[j][k]);
-          if(player[i] === myApp.winCombos[j][k] ) {
+          if(player[i] === myApp.winCombos[j][k] ) { // use jk to save wins
             wincount++
-            console.log('wincount ', wincount);
             if(wincount === 3) {
-              console.log('you win');
+              myApp.winningChoice = [myApp.winCombos[j][0], myApp.winCombos[j][1], myApp.winCombos[j][2]], 
+              // console.log('you win');
               myApp.game.winCondition();
-              return 'you win' // will call win function
+              return true; // will call win function
             }
             break;
           } 
@@ -166,23 +259,15 @@ myApp.game = {
 
   winCondition: function() {
     // first highlight winning cells
-    if (myApp.currentPlayer === 'player1') {
-      for (var i = 0; i < myApp.playerAchoice.length; i++) {
-        // document.getElementById("value" + myApp.playerAchoice[i]).style.color = 'blue';
-
-        $("#value" + myApp.playerAchoice[i]).css("color", 'blue');
-      }
+    for (var i = 0; i < myApp.winningChoice.length; i++) {
+      // document.getElementById("value" + myApp.playerAchoice[i]).style.color = 'blue';
+      $("#value" + myApp.winningChoice[i]).css("color", 'blue'); 
     }
-    else {
-      for (var i = 0; i < myApp.playerBchoice.length; i++) {
-        // document.getElementById("value" + myApp.playerBchoice[i]).style.color = 'blue';
 
-        $("#value" + myApp.playerBchoice[i]).css("color", 'blue');
-      }
-    }
-    // score updated
+    // update score
     var x = 0;
     if (myApp.currentPlayer === 'player1') {
+      console.log('win condition');
       x = $('#score1').attr('value');
       x++;
       $('#score1').attr('value', x);
@@ -202,9 +287,14 @@ myApp.game = {
     $("#winScreen").css("display", 'block');
 
     // after time screen cleared
+    myApp.game.gameResult();
+
+    
+  },
+  gameResult: function() {
+    // after time screen cleared
     // setInterval(function(){ // repeats every 5 seconds
     setTimeout(function(){
-      console.log('im in');
       // document.getElementById("winScreen").style.display = 'none';
 
       $("#winScreen").css("display", 'none');
@@ -216,47 +306,23 @@ myApp.game = {
 
       for (var i = 0; i < 9; i++) {
         $('#value' + i).attr('value', i);
+        myApp.gameBoard[i] = '';
       }
 
     }, 5000);
   },
 
-  /////////////////////////////////
+  checkForDraw: function() {
+    if (myApp.playerAchoice.length + myApp.playerBchoice.length === 9) {
+      $("#winScreen").text('Draw!! :D');
+      $("#winScreen").css("display", 'block');
+      // after time screen cleared
+      myApp.game.gameResult();
 
-
-  cleargameBoard: function() { // game board cleared own function
-
-
-  },
-  whosturnIsit: function() { // player to go 1st 50 / 50 chance should be own function
-
-  },
-
-
-  updateBoard: function(value) {
-    console.log('gameBoard value ', myApp.gameBoard[value] );
-    console.log('indexOf ', myApp.gameBoard.indexOf('') );
-    if ( myApp.gameBoard[value] === '' ) {
-      myApp.gameBoard[value] = value;
-      this.updatePlayer(myApp.currentPlayer, value);
-      console.log('gameBoard ', myApp.gameBoard);
+      return true;
     }
   },
-  updatePlayer: function(playerInPlay, playerValue) {
-      myApp.playerInPlay.push(playerValue);
-  },
-  changePlayer: function() {
-    if ( myApp.currentPlayer === myApp.playerA ) {
-      myApp.playerA = currentPlayer;
-      myApp.currentPlayer = myApp.playerB;
-    } 
-    else {
-      myApp.playerB = currentPlayer
-      myApp.currentPlayer = myApp.playerA;
-    }
-    console.log('playerA', myApp.playerA);
-    console.log('playerB', myApp.playerB);
-  }
+
 
 };
 /* End Game Logic */
@@ -302,8 +368,6 @@ myApp.navigation = {
       $("#signSelect").css("display", 'none');
       $("#communicationCenter").css("display", 'block');
       $("#gameBoard").css("display", 'block');
-
-      myApp.game.whosTurnInitialTurn();
       
 
       // set value
@@ -319,6 +383,15 @@ myApp.navigation = {
       // clear game board
       $(".numberdiv").text('');
       // game triggered
+      myApp.game.whosTurnInitialTurn();
+
+      // comp will go and switch playes again. comp will be triggered when the symbol is selected. 
+      // *************************** //
+      // if (myApp.playerB[0] === 'comp') {
+      //   console.log('im in the computer logic xxxxxxxx')
+      //   myApp.game.computerLogic(); 
+      // }
+
     }
     if (value === 'back') {    
       // document.getElementById("signSelect").style.display = 'none';
@@ -337,8 +410,8 @@ myApp.navigation = {
       // document.getElementById("numberOfPlayerSelect").style.display = 'block';
 
       $("#communicationCenter").css("display", 'none');
-      $("#numberdiv").css("display", 'none');
-      $("#numberdiv").css("display", 'block');
+      $("#gameBoard").css("display", 'none');
+      $("#numberOfPlayerSelect").css("display", 'block');
 
       // document.getElementById("currentPlayer1").style.display = 'none';
       // document.getElementById("currentPlayer2").style.display = 'none';
@@ -355,7 +428,15 @@ myApp.navigation = {
 
       for (var i = 0; i < 9; i++) {
         $('#value' + i).attr('value', i);
+        myApp.gameBoard[i] = '';
       }
+
+      // reset points 
+      $('#score1').attr('value', 0);
+      $("#score1").text(0);
+      $('#score2').attr('value', 0);
+      $("#score2").text(0);
+
 
     }
   }

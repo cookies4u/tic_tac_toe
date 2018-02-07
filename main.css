@@ -6,6 +6,9 @@
     width: 400px;
     height: 40px;
 }
+.currentPlayerContainer2 {
+	width: 50%;
+}
 .containerPlayers {
 	font-family: 'Shadows Into Light', cursive;
 	font-size: 21px;
@@ -27,6 +30,7 @@
 #currentPlayer2 {
 	background-color: #e66b6b;
 	display: none;
+	margin-left: 160px;
 }
 
 /* /// main container /// */
